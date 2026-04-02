@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class MaxHeap{
+    vector<int> v;
+public:
+    void insert(int x){
+        v.push_back(x);
+        int i=v.size()-1;
+        while(i>0 && v[(i-1)/2]<v[i]){
+            swap(v[i],v[(i-1)/2]);
+            i=(i-1)/2;
+        }
+    }
+    void deleteRoot(){
+        if(v.empty()) return;
+        v[0]=v.back();
+        v.pop_back();
+        int i=0,n=v.size();
+        while(true){
+            int l=2*i+1,r=2*i+2,largest=i;
+            if(l<n && v[l]>v[largest]) largest=l;
+            if(r<n && v[r]>v[largest]) largest=r;
+            if(largest!=i){
+                swap(v[i],v[largest]);
+                i=largest;
+            } else break;
+        }
+    }
+    void getMax(){
+        if(!v.empty()) cout<<v[0]<<endl;
+    }
+};
+
+int main(){
+    MaxHeap h;
+    int n,x;
+    cin>>n;
+    while(n--){
+        int op; cin>>op;
+        if(op==1){cin>>x; h.insert(x);}
+        else if(op==2) h.deleteRoot();
+        else if(op==3) h.getMax();
+    }
+}
